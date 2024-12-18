@@ -30,7 +30,7 @@ response = requests.get(api_URL)
 
 if response.status_code == 200:
     problem_data = response.json() # raw API response data
-    ut.getProblemData(problem_data)
+    ut.getProblemData(problem_data, worksheet)
 
 
 
