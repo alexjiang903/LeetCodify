@@ -3,6 +3,7 @@ import pandas as pd
 import gspread
 import random
 from datetime import datetime
+# initial commit to publish branch
 
 def convertToSlug(title):
     return title.lower().replace(' ', '-')
