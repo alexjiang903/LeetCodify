@@ -32,7 +32,11 @@ if response.status_code == 200:
     problem_data = response.json() # raw API response data
     ut.getProblemData(problem_data, worksheet)
 
-
+elif response.status_code == 429:
+    print("LC API is busy. Please try again later.")
+    print("Logged Response:", response)
+    exit()
 
 else:
     print(f"Error Code: {response.status_code}")
+    exit()
