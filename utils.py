@@ -25,7 +25,7 @@ def getRandomQuestion(all_q_df, diff):
 
 def getProblemData(problem_data, sheet_ref):
     if 'link' not in problem_data:
-        print(f"Link error occurred. Problem data that was logged: {problem_data}")
+        print(f"Link error occurred. Problem data recieved: {problem_data}")
         print("No link found!")
         exit()
     
@@ -35,10 +35,8 @@ def getProblemData(problem_data, sheet_ref):
 
         q_tags = problem_data['topicTags'] # Array of tags from API response
         relevant_topics = []
-
-        for item in q_tags:
-            relevant_topics.append(item["name"])
-
+        relevant_topics = [item["name"] for item in relevant_topics] 
+        
         print(f"Question Topics: {relevant_topics}")
 
         trackLastReview(problem_data["questionTitle"], sheet_ref) #sheet_ref is the worksheet containing all tracked questions
@@ -57,9 +55,7 @@ def trackLastReview(q_name, sheet_ref):
     # Find the corresponding question:
     current_date = datetime.now().strftime("%Y-%m-%d")
 
-    #Debugging:
-    print(df.head())
-    print(f"Searching for: {q_name}")
+    print(f"Searching for: {q_name}...")
     
     row_index = df.query(' `Problem Name` == @q_name ').index
 
@@ -67,8 +63,8 @@ def trackLastReview(q_name, sheet_ref):
         df.at[row_index[0], 'Most Recent Review'] = current_date 
         print(f"Successfully updated last review date {current_date} for {q_name}")
         # Write the data back to the sheet (insert/add to "Most Recent Review" column) (WIP)
-        sheet_ref.update_acell(f"K{row_index[0] + 2}", current_date)
-        sheet_ref.format(f"K{row_index[0] + 2}", formats["text_entry_format"])
+        sheet_ref.update_acell(f"J{row_index[0] + 2}", current_date)
+        sheet_ref.format(f"J{row_index[0] + 2}", formats["text_entry_format"])
         
     else:
         print("Error, row index not found.")

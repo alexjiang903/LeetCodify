@@ -34,9 +34,14 @@ if response.status_code == 200:
 
 elif response.status_code == 429:
     print("LC API is busy. Please try again later.")
-    print("Logged Response:", response)
+    try:
+        print("Response body:", response.text)
+    except Exception as e:
+        print("Error getting details:", e)
+        print(response)
+
     exit()
 
 else:
-    print(f"Error Code: {response.status_code}")
+    print(f"Error code encountered: {response.status_code}")
     exit()

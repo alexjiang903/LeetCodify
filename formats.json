@@ -8,7 +8,7 @@
 
     "text_entry_format": {
       "backgroundColor": {"red": 1, "green": 1, "blue": 1},
-      "textFormat": {"fontFamily": "Roboto", "fontSize": 12},
+      "textFormat": {"fontFamily": "Roboto", "fontSize": 14, "bold": true}, "foregroundColor": {"red": 0.01, "green": 0.2, "blue": 0.9},
       "wrapStrategy": "WRAP"
     }
 }
