@@ -4,7 +4,7 @@ Based off my personal LeetCode Problems Tracker (https://docs.google.com/spreads
 
 # What it does
 - Pulls random question of specified difficulty from bank linked above to review
-- Pulls selected questions' data from LeetCode API (https://github.com/alfaarghya/alfa-leetcode-api)
+- Pulls the selected questions' data from LeetCode API (https://github.com/alfaarghya/alfa-leetcode-api)
 - Updates the sheet with the date of review
 
 # Additional Features (WIP)
