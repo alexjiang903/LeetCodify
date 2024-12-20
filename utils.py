@@ -34,8 +34,7 @@ def getProblemData(problem_data, sheet_ref):
         print(f"Difficulty: {problem_data['difficulty']}")
 
         q_tags = problem_data['topicTags'] # Array of tags from API response
-        relevant_topics = []
-        relevant_topics = [item["name"] for item in relevant_topics] 
+        relevant_topics = [item.get("name", "") for item in q_tags if "name" in item] 
         
         print(f"Question Topics: {relevant_topics}")
 
@@ -61,11 +60,11 @@ def trackLastReview(q_name, sheet_ref):
 
     if not row_index.empty:
         df.at[row_index[0], 'Most Recent Review'] = current_date 
-        print(f"Successfully updated last review date {current_date} for {q_name}")
+
         # Write the data back to the sheet (insert/add to "Most Recent Review" column) (WIP)
         sheet_ref.update_acell(f"J{row_index[0] + 2}", current_date)
         sheet_ref.format(f"J{row_index[0] + 2}", formats["text_entry_format"])
-        
+        print(f"Successfully updated last review date {current_date} for {q_name}")
     else:
         print("Error, row index not found.")
         exit()
