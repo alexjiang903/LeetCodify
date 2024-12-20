@@ -9,6 +9,7 @@ Based off my personal LeetCode Problems Tracker (https://docs.google.com/spreads
 
 # Additional Features (WIP)
 - Ability to specify languages in addition to difficulty (ex. Medium, C++)
+- Graphical User Interface
 
   
 
