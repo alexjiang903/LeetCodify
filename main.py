@@ -4,6 +4,7 @@ from google.oauth2.service_account import Credentials
 import requests
 import utils as ut
 
+
 scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
 creds = Credentials.from_service_account_file('client_secret.json', scopes=scope)
 client = gspread.authorize(creds)
@@ -13,12 +14,12 @@ worksheet = sheet.get_worksheet(0)
 data = worksheet.get_all_records()
 
 user_select_diff = input("Easy, medium, or hard question to review?: ").lower().capitalize()
-user_select_lang = input("What language do you want to review?: ").lower().capitalize()
 
 if (user_select_diff not in ["Easy", "Medium", "Hard"]):
     print("Invalid difficulty level entered. Please try again.")
     exit()
 
+user_select_lang = input("What language do you want to review?: ").lower().capitalize()
 
 chosen_question = ut.getRandomQuestion(pd.DataFrame(data), user_select_diff, user_select_lang)
 

@@ -4,27 +4,44 @@ import gspread
 import random
 from datetime import datetime
 import json
+import os
 
 
 with open('formats.json', 'r') as file:
     formats = json.load(file) # Formatting for writing to Google Sheets
 
-def convertToSlug(title):
-    return title.lower().replace(' ', '-')
-
 def getRandomQuestion(all_q_df, diff, lang):
+    os.system('clear')
     df = all_q_df[['Problem Name', 'Difficulty', 'Language']]
     all_languages = all_q_df["Language"].unique()
     all_languages = [x.lower() for x in all_languages]
+    
+    print("All languages available: ", all_languages)
+    print("All difficulties available: ", df['Difficulty'].unique())
 
-    if lang.lower() not in all_languages:
-        print(f"No matching questions done with {lang} and difficulty {diff}.")
+    is_valid_lang = lang.lower() in all_languages
+    is_valid_diff = diff in df['Difficulty'].unique()   
+
+    print("Valid Language?: ", is_valid_lang)
+    print("Valid Diff?: ", is_valid_diff)
+    
+    if not (is_valid_lang and is_valid_diff):
+        lang = lang if (lang != "Javascript" and lang != "Typescript") else ("JS" if lang == "Javascript" else "TS")
+        print(f"You have not done any questions with language {lang} and difficulty {diff} so far!")
         exit()
         
     # Filter data frame by difficulty selected
+    print("lang: ", lang)
+    if (lang == "Javascript" or lang == "Typescript"):
+        lang.replace("s", "S") #edge case for JS/TS where the first letter isn't the only one capitalized
+    
     df_filtered = df.query('Difficulty == @diff and Language == @lang')    
     
-    
+    if (df_filtered.empty):
+        lang = lang if (lang != "Javascript" and lang != "Typescript") else ("JS" if lang == "Javascript" else "TS")
+        print(f"No matching questions found with {lang} and difficulty {diff}.")
+        exit()
+
     chosen_question = df_filtered["Problem Name"].sample(1).iloc[0] #Randomly sample one question from data frame
     print(f"The question to review will be : {chosen_question}")
     return chosen_question
@@ -33,7 +50,6 @@ def getRandomQuestion(all_q_df, diff, lang):
 def getProblemData(problem_data, sheet_ref):
     if 'link' not in problem_data:
         print(f"Link error occurred. Problem data recieved: {problem_data}")
-        print("No link found!")
         exit()
     
     else:
@@ -45,7 +61,7 @@ def getProblemData(problem_data, sheet_ref):
         
         print(f"Question Topics: {relevant_topics}")
 
-        trackLastReview(problem_data["questionTitle"], sheet_ref) #sheet_ref is the worksheet containing all tracked questions
+        trackLastReview(problem_data["questionTitle"], sheet_ref) # sheet_ref is the worksheet containing all tracked questions
 
 
 def trackLastReview(q_name, sheet_ref):
@@ -54,6 +70,7 @@ def trackLastReview(q_name, sheet_ref):
     df = pd.DataFrame(sheet_data)
 
     if 'Most Recent Review' not in df.columns:
+        print("this shouldn't get triggered anymore... (Most Recent Review already exists in the sheet)")
         df['Most Recent Review'] = None #initialize column if last review date missing
         sheet_ref.update_acell("K1", "Most Recent Review")
         sheet_ref.format('K1', formats["header_format"])
@@ -68,7 +85,7 @@ def trackLastReview(q_name, sheet_ref):
     if not row_index.empty:
         df.at[row_index[0], 'Most Recent Review'] = current_date 
 
-        # Write the data back to the sheet (insert/add to "Most Recent Review" column) (WIP)
+        # Write the data back to the sheet (insert/add to "Most Recent Review" column) 
         sheet_ref.update_acell(f"J{row_index[0] + 2}", current_date)
         sheet_ref.format(f"J{row_index[0] + 2}", formats["text_entry_format"])
         print(f"Successfully updated last review date {current_date} for {q_name}")
