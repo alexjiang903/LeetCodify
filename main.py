@@ -12,17 +12,19 @@ sheet = client.open("LeetCode Problems Tracker")
 worksheet = sheet.get_worksheet(0)
 data = worksheet.get_all_records()
 
-user_select = input("Easy, medium, or hard question to review?: ").lower().capitalize()
+user_select_diff = input("Easy, medium, or hard question to review?: ").lower().capitalize()
+user_select_lang = input("What language do you want to review?: ").lower().capitalize()
 
-if (user_select not in ["Easy", "Medium", "Hard"]):
+if (user_select_diff not in ["Easy", "Medium", "Hard"]):
     print("Invalid difficulty level entered. Please try again.")
     exit()
 
-chosen_question = ut.getRandomQuestion(pd.DataFrame(data), user_select)
+
+chosen_question = ut.getRandomQuestion(pd.DataFrame(data), user_select_diff, user_select_lang)
 
 # Make an API call to get more info about question:
-title_slug = ut.convertToSlug(chosen_question)
 
+title_slug = chosen_question.lower().replace(' ', '-')
 api_URL = f"https://alfa-leetcode-api.onrender.com/select?titleSlug={title_slug}"
 
 response = requests.get(api_URL)
