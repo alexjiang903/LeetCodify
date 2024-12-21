@@ -12,12 +12,19 @@ with open('formats.json', 'r') as file:
 def convertToSlug(title):
     return title.lower().replace(' ', '-')
 
-def getRandomQuestion(all_q_df, diff):
-    df = all_q_df[['Problem Name', 'Difficulty']]
-    
+def getRandomQuestion(all_q_df, diff, lang):
+    df = all_q_df[['Problem Name', 'Difficulty', 'Language']]
+    all_languages = all_q_df["Language"].unique()
+    all_languages = [x.lower() for x in all_languages]
+
+    if lang.lower() not in all_languages:
+        print(f"No matching questions done with {lang} and difficulty {diff}.")
+        exit()
+        
     # Filter data frame by difficulty selected
-    df_filtered = df.query('Difficulty == @diff')    
-  
+    df_filtered = df.query('Difficulty == @diff and Language == @lang')    
+    
+    
     chosen_question = df_filtered["Problem Name"].sample(1).iloc[0] #Randomly sample one question from data frame
     print(f"The question to review will be : {chosen_question}")
     return chosen_question
@@ -69,20 +76,3 @@ def trackLastReview(q_name, sheet_ref):
         print("Error, row index not found.")
         exit()
         
-
-    
-
-    
-    
-
-    
-
-    
-
-
-
-
-
-
-
-
