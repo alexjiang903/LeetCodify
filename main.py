@@ -1,7 +1,6 @@
 import gspread
 import pandas as pd
 from google.oauth2.service_account import Credentials
-import random
 import requests
 import utils as ut
 
@@ -16,7 +15,7 @@ data = worksheet.get_all_records()
 user_select = input("Easy, medium, or hard question to review?: ").lower().capitalize()
 
 if (user_select not in ["Easy", "Medium", "Hard"]):
-    print("Invalid difficulty level. Please try again.")
+    print("Invalid difficulty level entered. Please try again.")
     exit()
 
 chosen_question = ut.getRandomQuestion(pd.DataFrame(data), user_select)
@@ -32,7 +31,16 @@ if response.status_code == 200:
     problem_data = response.json() # raw API response data
     ut.getProblemData(problem_data, worksheet)
 
+elif response.status_code == 429:
+    print("LeetCode API is busy. Please try again later.")
+    try:
+        print("Response body:", response.text)
+    except Exception as e:
+        print("Error getting details:", e)
+        print(response)
 
+    exit()
 
 else:
-    print(f"Error Code: {response.status_code}")
+    print(f"Error code encountered: {response.status_code}")
+    exit()

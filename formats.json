@@ -1,0 +1,16 @@
+{
+    "header_format": {
+      "backgroundColor": {"red": 0.2355555556, "green": 0.462222222, "blue": 0.32941176}, 
+      "textFormat": {"bold": true, "fontSize": 20, "fontFamily": "Roboto", "foregroundColor": {"red": 1, "green": 1, "blue": 1}},
+      "horizontalAlignment": "LEFT",
+      "wrapStrategy": "WRAP"
+    },
+   
+    "text_entry_format": {
+      "backgroundColor": {"red": 0.933, "green": 0.996, "blue": 0.8},
+      "textFormat": {"fontFamily": "Roboto", "fontSize": 14, "bold": true, "foregroundColor": {"red": 0, "green": 0, "blue": 0}},
+      "wrapStrategy": "WRAP",
+      "horizontalAlignment": "CENTER"
+    }
+}
+  
