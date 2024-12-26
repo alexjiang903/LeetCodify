@@ -38,7 +38,7 @@ def getRandomQuestion(all_q_df, diff, lang):
         exit()
 
     chosen_question = df_filtered["Problem Name"].sample(1).iloc[0] #Randomly sample one question from data frame
-    print(f"\nThe question to review will be : {chosen_question}")
+    print(f"\nThe question to review will be: {chosen_question}")
     return chosen_question
 
 
@@ -77,7 +77,7 @@ def trackLastReview(q_name, sheet_ref):
     # Find the corresponding question:
     current_date = datetime.now().strftime("%Y-%m-%d")
 
-    print(f"Searching for: {q_name}...")
+    print(f"\nSearching for: {q_name}...")
     
     row_index = df.query(' `Problem Name` == @q_name ').index
 
