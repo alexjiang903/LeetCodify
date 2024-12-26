@@ -7,8 +7,10 @@ Based off my personal [LeetCode Problems Tracker](https://docs.google.com/spread
 - Updates the sheet with the date of review
 
 # Additional Features (WIP)
+- General improvements UI Experience in command line
 - Ability to specify languages in addition to difficulty (ex. Medium, C++) 
 - Ability to specify particular topics to review (ex. two pointers, binary trees, etc.)
+
 
 
   
