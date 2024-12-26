@@ -77,7 +77,7 @@ def trackLastReview(q_name, sheet_ref):
     # Find the corresponding question:
     current_date = datetime.now().strftime("%Y-%m-%d")
 
-    print(f"\nSearching for: {q_name}...")
+    print(f"\nSearching for {q_name}...")
     
     row_index = df.query(' `Problem Name` == @q_name ').index
 
